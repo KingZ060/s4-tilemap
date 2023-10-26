@@ -109,13 +109,13 @@ function redrawTilemap() {
   }
 }
 
-gridCanvas.addEventListener("click", (e) => {
-  const coordX: number = Math.trunc(e.offsetX / tileSize);
-  const coordY: number = Math.trunc(e.offsetY / tileSize);
+// gridCanvas.addEventListener("click", (e) => {
+//   const coordX: number = Math.trunc(e.offsetX / tileSize);
+//   const coordY: number = Math.trunc(e.offsetY / tileSize);
 
-  tilemap[coordX][coordY] = currentTile;
-  redrawTilemap();
-});
+//   tilemap[coordX][coordY] = currentTile;
+//   redrawTilemap();
+// });
 
 // ----- Interacting with the selectable tilemap -----
 
@@ -140,3 +140,26 @@ selectCanvas.addEventListener("click", (e) => {
   const coordY = Math.trunc(e.offsetY / selectHeight);
   currentTile = coordY;
 });
+
+let drawing = false;
+gridCanvas.addEventListener("mousedown", () => {
+  drawing = true;
+});
+
+gridCanvas.addEventListener("mouseup", () => {
+  drawing = false;
+});
+
+gridCanvas.addEventListener("mousemove", (e) => {
+  if(drawing){
+    drawAtCoord(e)
+  }
+});
+
+function drawAtCoord(e: MouseEvent) {
+  const coordX: number = Math.trunc(e.offsetX / tileSize);
+  const coordY: number = Math.trunc(e.offsetY / tileSize);
+
+  tilemap[coordX][coordY] = currentTile;
+  redrawTilemap();
+}
